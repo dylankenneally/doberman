@@ -24,14 +24,13 @@ jobs:
           IOS_SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.IOS_SIGNING_CERTIFICATE_PASSWORD }}
           IOS_PROVISION_PROFILE_BASE64: ${{ secrets.IOS_PROVISION_PROFILE_BASE64 }}
           IOS_PROVISION_PROFILE_DIST_BASE64: ${{ secrets.IOS_PROVISION_PROFILE_DIST_BASE64 }}
-          # KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
         run: |
           # create temporary keychain
           echo "Creating temporary keychain..."
           security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN
           security set-keychain-settings -lut 21600 $KEYCHAIN
-          # security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN
-          security unlock-keychain -p "" $KEYCHAIN
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN
 
           # extract certificate and provisioning profile from secrets
           echo "Extracting certificate and provisioning profiles..."
