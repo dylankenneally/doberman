@@ -29,7 +29,7 @@ jobs:
         run: |
             xcodebuild \
               archive \
-              -workspace doberman.xcworkspace \
-              -configuration Release \
-              -scheme doberman \
-              -destination generic/platform=iOS
+              -workspace "$XC_WORKSPACE" \
+              -configuration "$XC_CONFIGURATION" \
+              -scheme "$XC_SCHEME" \
+              -destination "$XC_DESTINATION"
