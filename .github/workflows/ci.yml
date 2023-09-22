@@ -17,6 +17,40 @@ jobs:
       - name: Checkout the code
         uses: actions/checkout@v4
 
+      - name: Install the Apple certificate and provisioning profiles
+        env:
+          IOS_SIGNING_CERTIFICATE_BASE64: ${{ secrets.IOS_SIGNING_CERTIFICATE_BASE64 }}
+          IOS_SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.IOS_SIGNING_CERTIFICATE_PASSWORD }}
+          IOS_PROVISION_PROFILE_BASE64: ${{ secrets.IOS_PROVISION_PROFILE_BASE64 }}
+          IOS_PROVISION_PROFILE_DIST_BASE64: ${{ secrets.IOS_PROVISION_PROFILE_DIST_BASE64 }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: |
+          # create temporary keychain
+          echo "Creating temporary keychain..."
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN
+          security set-keychain-settings -lut 21600 $KEYCHAIN
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN
+
+          # extract certificate and provisioning profile from secrets
+          echo "Extracting certificate and provisioning profiles..."
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          echo -n "$IOS_SIGNING_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
+          echo -n "$IOS_PROVISION_PROFILE_BASE64" | base64 --decode -o $RUNNER_TEMP/build_pp.mobileprovision
+          echo -n "$IOS_PROVISION_PROFILE_DIST_BASE64" | base64 --decode -o $RUNNER_TEMP/dist_pp.mobileprovision
+
+          # import certificate to keychain
+          echo "Importing certificate to keychain..."
+          security import $CERTIFICATE_PATH -P "$IOS_SIGNING_CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN
+          security list-keychain -d user -s $KEYCHAIN
+
+          # import provisioning profiles to Xcode
+          echo "Importing provisioning profiles to Xcode..."
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          SRCDIR=$(pwd)
+          cd $RUNNER_TEMP
+          source $SRCDIR/build-scripts/install-ios-mobile-provision-files.sh
+          cd -
+
       - name: Setup Node.js v18.16.0
         uses: actions/setup-node@v3
         with:
