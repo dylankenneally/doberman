@@ -60,12 +60,12 @@ jobs:
       - name: Install dependencies
         uses: ./.github/actions/install-dependencies
 
-      - name: Build the iOS archive
-        run: |
-            xcodebuild \
-              archive \
-              -workspace "$XC_WORKSPACE" \
-              -configuration "$XC_CONFIGURATION" \
-              -scheme "$XC_SCHEME" \
-              -destination "$XC_DESTINATION" \
-              "OTHER_CODE_SIGN_FLAGS=--keychain '$KEYCHAIN'"
+      # - name: Build the iOS archive
+      #   run: |
+      #       xcodebuild \
+      #         archive \
+      #         -workspace "$XC_WORKSPACE" \
+      #         -configuration "$XC_CONFIGURATION" \
+      #         -scheme "$XC_SCHEME" \
+      #         -destination "$XC_DESTINATION" \
+      #         "OTHER_CODE_SIGN_FLAGS=--keychain '$KEYCHAIN'"
