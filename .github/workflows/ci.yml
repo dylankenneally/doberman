@@ -64,6 +64,7 @@ jobs:
         run: |
             xcodebuild \
               archive \
+              -quiet \
               -workspace "$XC_WORKSPACE" \
               -configuration "$XC_CONFIGURATION" \
               -scheme "$XC_SCHEME" \
