@@ -1,0 +1,42 @@
+name: Install dependencies
+description: Install React Native dependencies (NodeJS packages/Gems/Cocoapods) with caching for each.
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.16.0
+        cache: 'npm'
+
+    - name: Cache node_modules
+      id: modules-cache
+      uses: actions/cache@v3
+      with:
+        path: ./node_modules
+        key: ${{ runner.os }}-modules-${{ hashFiles('package-lock.json') }}
+
+    - name: Install node_modules
+      if: steps.modules-cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: npm ci
+
+    - name: Setup Ruby + Cache Gems
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '2.6'
+        bundler-cache: true
+
+    - name: Cache Pods
+      if: runner.os == 'macOS'
+      uses: actions/cache@v3
+      id: pods-cache
+      with:
+        path: ./ios/Pods
+        key: ${{ runner.os }}-pods-${{ hashFiles('ios/Podfile.lock') }}
+
+    - name: Install pods
+      if: runner.os == 'macOS'
+      shell: bash
+      run: cd ios && pod install && cd ..
