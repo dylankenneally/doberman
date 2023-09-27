@@ -2,6 +2,30 @@
 
 React Native app/test harness, being used to help debug iOS build issues for a client. Probably not useful to anyone else.
 
+- [x] Signed and ran on iPhone from Xcode
+- [x] Signed from command line
+- [x] Ran from command line
+- [ ] Exported to IPA
+- [ ] Repeat on build farm
+
+## Signed from command line
+
+```bash
+XC_SCHEME='doberman'
+XC_CONFIGURATION='Release'
+XC_WORKSPACE='ios/doberman.xcworkspace'
+XC_DESTINATION='generic/platform=iOS'
+XC_ARCHIVE_PATH='ios/build/Release/doberman.xcarchive'
+
+xcodebuild archive \
+  -quiet \
+  -workspace "$XC_WORKSPACE" \
+  -configuration "$XC_CONFIGURATION" \
+  -scheme "$XC_SCHEME" \
+  -destination "$XC_DESTINATION" \
+  -archivePath "$XC_ARCHIVE_PATH"
+```
+
 ---
 
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
