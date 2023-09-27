@@ -12,10 +12,10 @@ React Native app/test harness, being used to help debug iOS build issues for a c
 
 ```bash
 XC_SCHEME='doberman'
-XC_CONFIGURATION='Release'
+XC_CONFIGURATION='Release' # or XC_CONFIGURATION='Automation'
 XC_WORKSPACE='ios/doberman.xcworkspace'
 XC_DESTINATION='generic/platform=iOS'
-XC_ARCHIVE_PATH='ios/build/Release/doberman.xcarchive'
+XC_ARCHIVE_PATH=ios/build/$XC_CONFIGURATION/doberman.xcarchive
 
 xcodebuild archive \
   -quiet \
