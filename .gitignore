@@ -1,6 +1,9 @@
 # Build logs
 xcode_*.log
 
+# security files
+/sec
+
 # OSX
 #
 .DS_Store
