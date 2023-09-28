@@ -22,13 +22,14 @@ runs:
       shell: bash
       run: npm ci
 
-    - name: Setup Ruby + Cache Gems
+    - name: Setup Ruby
+      if: runner.os == 'macOS'
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: '2.7'
         bundler-cache: true
 
-    - name: Cache Pods
+    - name: Cache pods
       if: runner.os == 'macOS'
       uses: actions/cache@v3
       id: pods-cache
