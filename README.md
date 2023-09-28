@@ -5,7 +5,7 @@ React Native app/test harness, being used to help debug iOS build issues for a c
 - [x] Signed and ran on iPhone from Xcode
 - [x] Signed from command line
 - [x] Ran from command line
-- [ ] Exported to IPA
+- [x] Exported to IPA
 - [ ] Repeat on build farm
 
 ## Signed from command line
@@ -24,6 +24,20 @@ xcodebuild archive \
   -scheme "$XC_SCHEME" \
   -destination "$XC_DESTINATION" \
   -archivePath "$XC_ARCHIVE_PATH"
+```
+
+## Export to IPS
+
+```bash
+XC_EXPORT_OPTIONS_FILE_PATH='ios/ExportOptions.plist'
+XC_EXPORT_PATH=ios/build/$XC_CONFIGURATION/doberman.ipa
+
+xcodebuild \
+  -quiet \
+  -exportArchive \
+  -archivePath "$XC_ARCHIVE_PATH" \
+  -exportOptionsPlist "$XC_EXPORT_OPTIONS_FILE_PATH" \
+  -exportPath "$XC_EXPORT_PATH"
 ```
 
 ---
