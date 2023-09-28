@@ -11,6 +11,8 @@ on:
       - "package-lock.json"
       - "ios/Podfile.lock"
       - "Gemfile.lock"
+      - ".github/workflows/on-dependency-update.yml"
+      - ".github/actions/install-dependencies/action.yml"
 
 jobs:
   rebuild-android-cache:
