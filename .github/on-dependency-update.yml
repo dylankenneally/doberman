@@ -6,7 +6,6 @@ on:
   push:
     branches:
       - "master"
-      - "actions-data"
     paths:
       # Run only if one of these files have changed
       - "package-lock.json"
