@@ -6,6 +6,8 @@ React Native app/test harness, being used to help debug iOS build issues for a c
 - [x] Signed from command line
 - [x] Ran from command line
 - [x] Exported to IPA
+  - [ ] you are here. 2 things: (1) you had to create a new Dist certificate, couldn't use phungs & (2) it wanted the password from the cert file on the desktop
+  - [ ] - can you get that to happen without the password? or from the command line?
 - [ ] Repeat on build farm
 
 ## Signed from command line

@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - "master"
+      - "trigger-wip"
     paths:
       # Run only if one of these files have changed
       - "package-lock.json"
